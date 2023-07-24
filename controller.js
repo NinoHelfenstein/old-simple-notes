@@ -31,7 +31,7 @@ const controller = (() => {
     const newNode = existingNoteTemplate.cloneNode(true);
     const elementId = `existing-note-${noteId}`;
     newNode.setAttribute("id", elementId);
-    existingNotes.appendChild(newNote);
+    existingNotes.appendChild(newNode);
     document.querySelector(`#${elementId} #existing-note-title`).innerText =
       title;
     document.querySelector(`#${elementId} #existing-note-text`).innerText =
@@ -53,8 +53,8 @@ const controller = (() => {
     );
     const newNode = existingNoteTemplate.cloneNode(true);
     const elementId = `existing-note-list-${noteId}`;
-    newNote.setAttribute("id", elementId);
-    existingNotes.appendChild(newNote);
+    newNode.setAttribute("id", elementId);
+    existingNotes.appendChild(newNode);
     document.querySelector(
       `#${elementId} #existing-note-list-title`
     ).innerText = title;
@@ -197,7 +197,7 @@ const controller = (() => {
       }, 1000);
     }
   }
-  
+
   function deleteAll() {
     document.getElementById("delete-confirm").classList.remove("hidden");
     document.getElementById("delete-confirm").classList.add("delete-confirm");
@@ -219,7 +219,7 @@ const controller = (() => {
       .getElementById("delete-confirm")
       .classList.remove("delete-confirm");
   }
-  
+
   function exportFile() {
     toggleExportSelect("exportSelect");
     value = document.getElementById("exportFile").value;
@@ -238,14 +238,14 @@ const controller = (() => {
     };
     let csv = notes.map(function (note) {
       return fields
-      .map(function (fieldName) {
-        return JSON.stringify(note[fieldName], replacer).replaceAll('"', "");
-      })
-      .join(",");
+        .map(function (fieldName) {
+          return JSON.stringify(note[fieldName], replacer).replaceAll('"', "");
+        })
+        .join(",");
     });
     csv.unshift(fields.join(",")); // add header column
     csv = csv.join("\r\n");
-    
+
     const blob = new Blob([csv], { type: "text/plain" });
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
@@ -267,8 +267,7 @@ const controller = (() => {
     a.click();
     URL.revokeObjectURL(url);
   }
-  
-  
+
   function importFile() {
     const fileInput = document.querySelector("input[type=file]");
     const file = fileInput.files[0];
@@ -315,15 +314,12 @@ const controller = (() => {
         }
 
         //return result; //JavaScript object
-        localStorage.setItem(
-          SIMPLE_NOTES_STORAGE_KEY,
-          JSON.stringify(result)
-        );
+        localStorage.setItem(SIMPLE_NOTES_STORAGE_KEY, JSON.stringify(result));
         location.reload();
       },
       false
     );
-    
+
     if (file) {
       csv = reader.readAsText(file);
     }
@@ -340,7 +336,7 @@ const controller = (() => {
         localStorage.setItem(
           SIMPLE_NOTES_STORAGE_KEY,
           JSON.stringify(importedNotes)
-          );
+        );
         location.reload();
       },
       false
@@ -350,11 +346,11 @@ const controller = (() => {
       reader.readAsText(file);
     }
   }
-  
+
   function showModal(id) {
     document.getElementById(id).click();
   }
-  
+
   function toggleExportSelect(id) {
     ele = document.getElementById(id);
     if (ele.style.display === "none") {
@@ -363,7 +359,7 @@ const controller = (() => {
       ele.style.display = "none";
     }
   }
-  
+
   return {
     addNote,
     deleteNote,
